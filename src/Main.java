@@ -12,19 +12,15 @@ public class Main {
 
     public static void compare(int day) {
         System.out.println("=== Day " + day + " ===");
-        int[] startNumbers = {21, 1, 20, 23};
+        int[] startNumbers = { 21, 1, 20, 23 };
         int iterative = chooseHobbyIterative(startNumbers, day);
-        int recursive = chooseHobbyRecursive(startNumbers, day);
-        int recursiveDP = chooseHobbyRecursiveDP(startNumbers, day, new int[day + 4]);
-        System.out.println("Iterative = " + iterative
-                + " | Recursive = " + recursive
-                + " | RecursiveDP = " + recursiveDP);
+        int recursive = chooseHobbyRecursive(startNumbers, day + 3);
+        int recursiveDP = chooseHobbyRecursiveDP(startNumbers, day + 3, new int[day + 4]);
+        System.out.println("Iterative = " + iterative + " | Recursive = " + recursive + " | RecursiveDP = " + recursiveDP);
         System.out.println();
     }
 
-    /**
-     * Итеративный вариант (нельзя менять по заданию)
-     */
+    // Итеративный вариант (дан по условию)
     public static int chooseHobbyIterative(int[] startNumbers, int day) {
         List<Integer> numbers = new ArrayList<>();
         numbers.add(startNumbers[0]);
@@ -41,13 +37,8 @@ public class Main {
         return numbers.get(numbers.size() - 1);
     }
 
-    /**
-     * Рекурсивный вариант (напрямую)
-     */
+    // Простой рекурсивный вариант (без динамики)
     public static int chooseHobbyRecursive(int[] startNumbers, int day) {
-        if (day < 0) {
-            throw new IllegalArgumentException("Day cannot be negative");
-        }
         if (day < 4) {
             return startNumbers[day];
         }
@@ -56,17 +47,12 @@ public class Main {
         return (prev * prePrePrev) % 10 + 1;
     }
 
-    /**
-     * Рекурсивный вариант с динамическим программированием (оптимизированный)
-     */
+    // Рекурсивный вариант с динамическим программированием (мемоизация)
     public static int chooseHobbyRecursiveDP(int[] startNumbers, int day, int[] memory) {
-        if (day < 0) {
-            throw new IllegalArgumentException("Day cannot be negative");
-        }
         if (day < 4) {
             return startNumbers[day];
         }
-        if (memory[day] != 0) { // Уже считали
+        if (memory[day] != 0) {
             return memory[day];
         }
         int prev = chooseHobbyRecursiveDP(startNumbers, day - 1, memory);
